@@ -3,46 +3,50 @@ package FileWorker;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 /**
  * Created by serik on 16.02.2019.
  */
 public class FileWrite implements Writer {
 
-    public void writeFiles(String[] dat) {
+
+
+    public void write(ArrayList<String> outList, String path) {
         try {
-            //РћРїСЂРµРґРµР»СЏРµРј С„Р°Р№Р»
-            File file = new File(dat[1]);
-            //РїСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ РµСЃР»Рё С„Р°Р№Р» РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ С‚Рѕ СЃРѕР·РґР°РµРј РµРіРѕ
+            //Определяем файл
+            File file = new File(path);
+            //проверяем, что если файл не существует то создаем его
             if(!file.exists()){
                 file.createNewFile();
             }
 
-            //PrintWriter РѕР±РµСЃРїРµС‡РёС‚ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё Р·Р°РїРёСЃРё РІ С„Р°Р№Р»
+            //PrintWriter обеспечит возможности записи в файл
             PrintWriter out = new PrintWriter(file.getAbsoluteFile());
 
             try {
-                //Р—Р°РїРёСЃС‹РІР°РµРј С‚РµРєСЃС‚ Сѓ С„Р°Р№Р»
-                for(int w = 0; w <length; w++){
+                //Записываем текст у файл
+                for(int i = 0; i < outList.size(); i++){
 
-                    if(w <= m.length-1){
-                        out.print(m[w]);
+                    if(i <= outList.size()-1){
+                        out.print(outList.get(i));
                         out.append("\r\n");
                     }
                     else{
-                        out.print(m[w]);
+                        out.print(outList.get(i));
                     }
                 }
 
             }
             finally {
-                //РџРѕСЃР»Рµ С‡РµРіРѕ РјС‹ РґРѕР»Р¶РЅС‹ Р·Р°РєСЂС‹С‚СЊ С„Р°Р№Р»
-                //РРЅР°С‡Рµ С„Р°Р№Р» РЅРµ Р·Р°РїРёС€РµС‚СЃСЏ
+                //После чего мы должны закрыть файл
+                //Иначе файл не запишется
                 out.close();
             }
         }
         catch(IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 }
